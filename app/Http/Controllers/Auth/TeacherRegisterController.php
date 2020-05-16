@@ -14,10 +14,10 @@ class TeacherRegisterController extends Controller
      //
      protected $redirectTo = '/home';
 
-     public function __construct()
-     {
-         $this->middleware('teacher');
-     }
+    //  public function __construct()
+    //  {
+    //      $this->middleware('teacher');
+    //  }
  
  
      /**
@@ -41,7 +41,7 @@ class TeacherRegisterController extends Controller
       * @param  array  $data
       * @return \App\User
       */
-     protected function create(array $data)
+     protected function create(Request $data)
      {
          return Teacher::create([
              'name' => $data['name'],

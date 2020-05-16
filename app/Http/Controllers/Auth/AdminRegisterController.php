@@ -4,21 +4,23 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Admin;
-
+use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AdminRegisterController extends Controller
 {
     //
     protected $redirectTo = '/home';
 
-    public function __construct()
-    {
-        $this->middleware('admin');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('admin');
+    // }
 
 
     /**
@@ -42,8 +44,13 @@ class AdminRegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
+        $this->validate($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
         return Admin::create([
             'name' => $data['name'],
             'email' => $data['email'],
